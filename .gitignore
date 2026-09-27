@@ -1,0 +1,11 @@
+# Windows 本地快捷方式
+*.lnk
+
+# Python 本地环境与缓存
+.env
+.venv/
+__pycache__/
+*.py[cod]
+
+# 运行日志
+*.log
