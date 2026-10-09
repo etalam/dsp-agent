@@ -4,7 +4,7 @@
 
 项目希望让 Agent 通过结构化游戏状态完成观察、规划、执行和验证，而不是依赖固定的鼠标键盘脚本。
 
-> 当前状态：Phase 1 原型验证完成，Agent 核心代码尚未开始实现。
+> 当前状态：Phase 1 原型验证完成；Phase 2 Agent 核心开发进行中，当前已完成同步 Mock Agent 的最小数据模型。
 
 ## 项目目标
 
@@ -39,7 +39,7 @@ Dyson Sphere Program
 - [x] 创建 Agent 专用测试世界
 - [x] 读取玩家和世界状态
 - [x] 完成一次 `observe → prepare → commit → verify` 闭环
-- [ ] 验证保存与重启恢复
+- [x] 验证保存与重启恢复
 
 详细环境、兼容性和测试证据见：
 
@@ -47,11 +47,65 @@ Dyson Sphere Program
 
 ### Phase 2：Agent 核心
 
-- [ ] 定义统一状态模型
-- [ ] 封装 MCP 工具调用
-- [ ] 实现观察—规划—执行循环
-- [ ] 添加结构化日志
-- [ ] 添加自动化测试和评估
+目标是实现一个独立、可靠、可测试的 Python Agent，完成：
+
+```text
+观察
+→ 规划
+→ 安全执行
+→ 等待终态
+→ 状态回读
+→ 结果验证
+```
+
+#### 里程碑一：同步 Mock Agent
+
+- [x] 建立 `dsp_agent` Python 包
+- [x] 定义 `WorldState`
+- [x] 定义 `Goal`
+- [x] 定义 `Intent` 和 `IntentType`
+- [x] 添加状态和目标的基础合法性检查
+- [x] 编写数据模型手动验证程序
+- [ ] 实现规则 Planner
+- [ ] 实现 Mock Executor
+- [ ] 实现同步 Agent 主循环
+
+#### 里程碑二：数据和自动化测试
+
+- [ ] 添加 JSON 状态读取
+- [ ] 建立 Python 虚拟环境和依赖管理
+- [ ] 添加 pytest 自动化测试
+- [ ] 测试 Planner、Executor 和停止条件
+
+#### 里程碑三：异步 Mock Agent
+
+- [ ] 实现异步动作执行
+- [ ] 添加超时、取消和动作轮询
+- [ ] 验证不确定结果不会导致重复动作
+
+#### 里程碑四：Spherewright 只读连接
+
+- [ ] 封装 MCP 客户端
+- [ ] 读取 session、player 和 resource 状态
+- [ ] 将 Spherewright 返回值映射为统一状态模型
+
+#### 里程碑五：Safe Executor
+
+- [ ] 实现 `fresh read → prepare → commit → terminal → readback`
+- [ ] 实现幂等键管理
+- [ ] 处理 stale state、outcome unknown 和 quarantine
+- [ ] 添加结构化日志和敏感信息脱敏
+
+#### 里程碑六：真实游戏验收
+
+- [ ] 自主获取至少一个新的铜矿
+- [ ] 验证背包与资源节点变化
+- [ ] 正常保存并验证保存结果
+- [ ] 目标完成后立即停止
+
+详细阶段目标、学习过程和验证证据见：
+
+- [第二阶段环境与实现记录](./环境记录.md#第二阶段agent-核心开发)
 
 ### Phase 3：早期游戏任务
 
@@ -62,7 +116,9 @@ Dyson Sphere Program
 
 ## 当前局限
 
-当前仓库只有环境和可行性验证记录，还没有独立 Agent 源代码，因此暂时属于技术原型，而不是完整的自主游戏 Agent。
+当前仓库已有同步 Mock Agent 的最小数据模型，但尚未实现 Planner、Executor、Agent 主循环和 Spherewright MCP 客户端，因此仍属于技术原型，而不是完整的自主游戏 Agent。
+
+当前数据模型只用于离线学习和验证，尚未映射完整的 Spherewright 状态，也没有执行第二阶段的真实游戏写操作。
 
 当前测试也只能证明已测试接口可用，不能证明所有 Spherewright 功能都与当前游戏版本兼容。
 
@@ -72,6 +128,10 @@ Dyson Sphere Program
 .
 ├── .gitignore
 ├── README.md
+├── dsp_agent/
+│   ├── __init__.py
+│   ├── demo_models.py
+│   └── models.py
 └── 环境记录.md
 ```
 
