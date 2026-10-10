@@ -4,7 +4,7 @@
 
 项目希望让 Agent 通过结构化游戏状态完成观察、规划、执行和验证，而不是依赖固定的鼠标键盘脚本。
 
-> 当前状态：Phase 1 原型验证完成；Phase 2 Agent 核心开发进行中，当前已完成同步 Mock Agent 的最小数据模型。
+> 当前状态：Phase 1 原型验证完成；Phase 2 里程碑一“同步 Mock Agent”已完成，准备进入里程碑二“数据和自动化测试”。
 
 ## 项目目标
 
@@ -28,7 +28,7 @@ Spherewright BepInEx Plugin
 Dyson Sphere Program
 ```
 
-当前使用 Codex 验证 MCP 工具链。后续将在仓库中实现独立的 Agent 层，包括状态模型、规划器、执行器和评估模块。
+当前使用 Codex 验证 MCP 工具链，并已在仓库中实现独立的同步 Mock Agent 层，包括状态模型、规则规划器、模拟执行器和运行主循环。后续将在此基础上继续实现自动化测试、异步执行和 Spherewright MCP 客户端。
 
 ## 当前进度
 
@@ -66,9 +66,9 @@ Dyson Sphere Program
 - [x] 定义 `Intent` 和 `IntentType`
 - [x] 添加状态和目标的基础合法性检查
 - [x] 编写数据模型手动验证程序
-- [ ] 实现规则 Planner
-- [ ] 实现 Mock Executor
-- [ ] 实现同步 Agent 主循环
+- [x] 实现规则 Planner
+- [x] 实现 Mock Executor
+- [x] 实现同步 Agent 主循环
 
 #### 里程碑二：数据和自动化测试
 
@@ -116,11 +116,11 @@ Dyson Sphere Program
 
 ## 当前局限
 
-当前仓库已有同步 Mock Agent 的最小数据模型，但尚未实现 Planner、Executor、Agent 主循环和 Spherewright MCP 客户端，因此仍属于技术原型，而不是完整的自主游戏 Agent。
+当前仓库已经实现同步、离线的 Mock Agent，包括统一数据模型、规则 Planner、Mock Executor 和 Agent 主循环；尚未实现 Spherewright MCP 客户端，因此仍属于技术原型，而不是完整的自主游戏 Agent。
 
 当前数据模型只用于离线学习和验证，尚未映射完整的 Spherewright 状态，也没有执行第二阶段的真实游戏写操作。
 
-当前测试也只能证明已测试接口可用，不能证明所有 Spherewright 功能都与当前游戏版本兼容。
+当前验证仍依赖手动演示程序，尚未添加 pytest 自动化测试，也不能证明所有 Spherewright 功能都与当前游戏版本兼容。
 
 ## 仓库结构
 
@@ -130,8 +130,14 @@ Dyson Sphere Program
 ├── README.md
 ├── dsp_agent/
 │   ├── __init__.py
+│   ├── agent.py
+│   ├── demo_agent.py
+│   ├── demo_executor.py
 │   ├── demo_models.py
-│   └── models.py
+│   ├── demo_planner.py
+│   ├── executor.py
+│   ├── models.py
+│   └── planner.py
 └── 环境记录.md
 ```
 

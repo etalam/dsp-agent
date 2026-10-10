@@ -36,8 +36,28 @@ class Goal:
         return state.Cu_count>=self.target_Cu
 
 
-"""Planner选择下一步业务的企图"""
+"""表示 Planner 选择的下一步业务意图。"""
 @dataclass(frozen=True)
 class Intent:
-    intent_type:IntentType
-    reason:str
+
+    intent_type: IntentType
+    reason: str
+
+
+"""表示Executor执行一次意图后的结果。"""
+@dataclass(frozen=True)
+class ActionResult:
+
+    success: bool
+    state: WorldState
+    message: str
+
+
+"""表示一次Agent运行结束后的汇总结果。"""
+@dataclass(frozen=True)
+class RunResult:
+
+    completed: bool
+    final_state: WorldState
+    actions_taken: int
+    stop_reason: str
